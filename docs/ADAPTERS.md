@@ -1,23 +1,17 @@
-# 网关适配补充
+# 2.0 正式版适配说明
 
-完整手册包含 2.0 工作流与宜巢适配。本页补充后续新增的迈联规则。软件版本继续保持 2.0。
+本文对应官网已上线的 2026-09-22 修订版，包含五个适配器。
 
-## 迈联智家 / Morelinks
+| 适配器 | 文件 | 导出前复核 |
+| --- | --- | --- |
+| Thinka | CSV | 房间、Service Type、Characteristic、读写地址；新配件 ID 留空，更新已有配件保留原 ID |
+| Home Assistant | YAML | 实体类型、KNX 数据类型、控制与状态地址；结合实际连接配置使用 |
+| Pandora Edge Matter | XLS | 原模板工作表、设备类型、所需地址与参数 |
+| HDL KNX | XLS | 灯光、遮阳、空调、地暖、新风对应字段及设备参数 |
+| KGP Matter | XLSX | 中英双语表头、设备类型与续行结构 |
 
-设备规划、批量规划、现场记录与 ETS6 XML 导入数据可进入适配中心。选择设备，核对统一名称、设备类型、功能编号和 DPT，再确认导出。
+设备规划、批量规划、导入的 ETS6 XML 或现场记录可作为适配数据来源。只导出所选且已映射的设备；缺少房间名称时使用可编辑的默认房间。未映射功能或参数不应通过编造地址来补齐。
 
-同一设备使用相同基础名称，后面附“类型编号 功能编号”。普通灯 `主卧射灯 1 0` 为读/反馈，`主卧射灯 1 1` 为写/控制。后缀属于名称，不重新分配实际组地址。
+Thinka CSV 使用 UTF-8 BOM 与 CRLF，保留原 11 列格式，方便 Excel 正确识别中文。请勿改写原表头；在 Excel 中另存时也需保留 UTF-8 CSV 编码。
 
-输出遵循提供样例的九列 CSV、GBK 编码与 CRLF 换行。名称含 GBK 无法表示的字符时会阻止导出。已录入 31 类、157 个编号条目；其中 26 个参数条目与1个歧义条目不生成虚构地址。双色温类型9的六种功能可由样例核对，其他类型仍需项目与主机验证。
-
-## 宜巢 / YCZNWL KNX Gateway
-
-按已提供模板生成六类 KNX 设备 JSON，保留组地址。房间 ID 需要填写目标网关已有值；复核实例名称和设备参数。网关内部 scene_uuid 无法从 KNX 场景地址生成，不会自动编造。
-
-## 验证范围
-
-软件自动检查与浏览器导出验证不等于全部网关硬件验收。导入前先备份目标配置，并用少量代表设备确认控制、反馈和参数。没有匹配的功能会要求补充或明确跳过，不补造地址。
-
-## English supplement
-
-Morelinks uses a common device base name followed by type and function numbers. Type 1 suffix `1 0` is read/feedback and `1 1` is write/control. Numeric KNX addresses are preserved. The exporter follows the supplied nine-column GBK CSV format. Unresolved parameter entries are excluded from address export. YCZNWL requires room IDs from the target gateway; internal scene UUIDs are not invented. Validate a small representative import on actual hardware before wider use.
+现场记录保留实测组地址。未知 DPT、功能、读写方向需先确认；输出文件仍需在目标平台复核并做少量设备验证。网关模板适配不等于所有固件或设备已经过实机验证。
