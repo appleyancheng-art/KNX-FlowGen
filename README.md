@@ -43,6 +43,8 @@
 
 当前安装包未代码签名，Windows 可能显示安全提示。GitHub 的 `Source code (zip)` 是本展示仓库的文档归档，不是软件安装包。带 **Pre-release** 标识的构建为测试候选版，请先验证再用于项目。
 
+正式更新会同步官网、GitHub 下载与文档，版本及安装包校验信息以 Releases 为准。
+
 ## 手册与更新
 
 - [中文用户手册 PDF](docs/KNX_FlowGen_User_Manual_CN.pdf)
